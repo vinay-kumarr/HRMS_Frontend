@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Filter, Calendar, UserCheck, UserX, Percent, ChevronDown, X } from 'lucide-react';
 import api from '../services/api';
 import Spinner from '../components/ui/Spinner';
@@ -106,31 +105,21 @@ const Attendance = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-            >
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-4">
-                    <div 
-                        className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
-                        style={{
-                            background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
-                            boxShadow: '0 4px 20px rgba(249, 115, 22, 0.3)'
-                        }}
-                    >
-                        <Calendar className="text-white" size={24} />
+                    <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+                        <Calendar className="text-indigo-600" size={24} />
                     </div>
                     <div>
-                        <h1 className="text-2xl sm:text-3xl font-display font-bold text-dark-900 dark:text-white">
+                        <h1 className="text-2xl font-bold text-slate-900">
                             Attendance
                         </h1>
-                        <p className="text-sm text-dark-500 dark:text-dark-400">
+                        <p className="text-sm text-slate-500">
                             Track and manage employee attendance
                         </p>
                     </div>
                 </div>
-            </motion.div>
+            </div>
 
             {notification && (
                 <Notification
@@ -142,28 +131,23 @@ const Attendance = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Attendance Marking Form */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="lg:col-span-1"
-                >
-                    <div className="glass rounded-2xl p-6 sticky top-24">
-                        <h2 className="text-lg font-display font-semibold text-dark-900 dark:text-white mb-6 flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                                <UserCheck className="text-orange-600 dark:text-orange-400" size={18} />
+                <div className="lg:col-span-1">
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sticky top-24">
+                        <h2 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+                                <UserCheck className="text-indigo-600" size={18} />
                             </div>
                             Mark Attendance
                         </h2>
-                        
-                        <form onSubmit={handleMarkAttendance} className="space-y-5">
+
+                        <form onSubmit={handleMarkAttendance} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1.5">
+                                <label className="block text-sm font-medium text-slate-700 mb-1">
                                     Select Employee
                                 </label>
                                 <div className="relative">
                                     <select
-                                        className="input-glass w-full appearance-none pr-10"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-transparent appearance-none pr-10"
                                         value={selectedEmployee}
                                         onChange={(e) => setSelectedEmployee(e.target.value)}
                                         required
@@ -175,182 +159,147 @@ const Attendance = () => {
                                             </option>
                                         ))}
                                     </select>
-                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 pointer-events-none" size={18} />
+                                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1.5">
+                                <label className="block text-sm font-medium text-slate-700 mb-1">
                                     Date
                                 </label>
                                 <input
                                     type="date"
                                     required
-                                    className="input-glass w-full"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-transparent"
                                     value={markDate}
                                     onChange={(e) => setMarkDate(e.target.value)}
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-3">
+                                <label className="block text-sm font-medium text-slate-700 mb-2">
                                     Status
                                 </label>
                                 <div className="flex gap-3">
-                                    <motion.button
+                                    <button
                                         type="button"
                                         onClick={() => setStatus('Present')}
                                         className={cn(
-                                            "flex-1 py-3 rounded-xl font-medium text-sm transition-all border-2",
+                                            "flex-1 py-2 rounded-md font-medium text-sm transition-all border",
                                             status === 'Present'
-                                                ? "bg-emerald-500/10 border-emerald-500 text-emerald-700 dark:text-emerald-300"
-                                                : "border-dark-200 dark:border-dark-600 text-dark-500 dark:text-dark-400 hover:border-emerald-300"
+                                                ? "bg-emerald-50 border-emerald-500 text-emerald-700"
+                                                : "border-gray-200 text-slate-600 hover:bg-slate-50"
                                         )}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
                                     >
-                                        <UserCheck size={18} className="inline mr-2" />
+                                        <UserCheck size={16} className="inline mr-2" />
                                         Present
-                                    </motion.button>
-                                    <motion.button
+                                    </button>
+                                    <button
                                         type="button"
                                         onClick={() => setStatus('Absent')}
                                         className={cn(
-                                            "flex-1 py-3 rounded-xl font-medium text-sm transition-all border-2",
+                                            "flex-1 py-2 rounded-md font-medium text-sm transition-all border",
                                             status === 'Absent'
-                                                ? "bg-rose-500/10 border-rose-500 text-rose-700 dark:text-rose-300"
-                                                : "border-dark-200 dark:border-dark-600 text-dark-500 dark:text-dark-400 hover:border-rose-300"
+                                                ? "bg-rose-50 border-rose-500 text-rose-700"
+                                                : "border-gray-200 text-slate-600 hover:bg-slate-50"
                                         )}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
                                     >
-                                        <UserX size={18} className="inline mr-2" />
+                                        <UserX size={16} className="inline mr-2" />
                                         Absent
-                                    </motion.button>
+                                    </button>
                                 </div>
                             </div>
 
-                            <motion.button
+                            <button
                                 type="submit"
-                                className="btn-primary w-full mt-4"
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                className="w-full py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors font-medium"
                             >
                                 Submit Attendance
-                            </motion.button>
+                            </button>
                         </form>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Attendance History & Stats */}
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="lg:col-span-2 space-y-6"
-                >
+                <div className="lg:col-span-2 space-y-6">
                     {/* Stats Cards */}
-                    <AnimatePresence>
-                        {selectedEmployee && (
-                            <motion.div
-                                initial={{ opacity: 0, y: -20, height: 0 }}
-                                animate={{ opacity: 1, y: 0, height: 'auto' }}
-                                exit={{ opacity: 0, y: -20, height: 0 }}
-                                className="grid grid-cols-3 gap-4"
-                            >
-                                <motion.div
-                                    className="stat-card text-center"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.1 }}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-3">
-                                        <UserCheck className="text-emerald-600 dark:text-emerald-400" size={20} />
-                                    </div>
-                                    <p className="text-xs text-dark-500 dark:text-dark-400 uppercase font-semibold mb-1">Present</p>
-                                    <p className="text-2xl font-display font-bold text-emerald-600 dark:text-emerald-400">{stats.present}</p>
-                                </motion.div>
-                                <motion.div
-                                    className="stat-card text-center"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.15 }}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center mx-auto mb-3">
-                                        <UserX className="text-rose-600 dark:text-rose-400" size={20} />
-                                    </div>
-                                    <p className="text-xs text-dark-500 dark:text-dark-400 uppercase font-semibold mb-1">Absent</p>
-                                    <p className="text-2xl font-display font-bold text-rose-600 dark:text-rose-400">{stats.absent}</p>
-                                </motion.div>
-                                <motion.div
-                                    className="stat-card text-center"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.2 }}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mx-auto mb-3">
-                                        <Percent className="text-orange-600 dark:text-orange-400" size={20} />
-                                    </div>
-                                    <p className="text-xs text-dark-500 dark:text-dark-400 uppercase font-semibold mb-1">Rate</p>
-                                    <p className="text-2xl font-display font-bold text-orange-600 dark:text-orange-400">{stats.percentage}%</p>
-                                </motion.div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    {selectedEmployee && (
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center">
+                                <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center mx-auto mb-2">
+                                    <UserCheck className="text-emerald-600" size={20} />
+                                </div>
+                                <p className="text-xs text-slate-500 uppercase font-semibold mb-1">Present</p>
+                                <p className="text-2xl font-bold text-emerald-600">{stats.present}</p>
+                            </div>
+                            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center">
+                                <div className="w-10 h-10 rounded-lg bg-rose-100 flex items-center justify-center mx-auto mb-2">
+                                    <UserX className="text-rose-600" size={20} />
+                                </div>
+                                <p className="text-xs text-slate-500 uppercase font-semibold mb-1">Absent</p>
+                                <p className="text-2xl font-bold text-rose-600">{stats.absent}</p>
+                            </div>
+                            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center">
+                                <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center mx-auto mb-2">
+                                    <Percent className="text-indigo-600" size={20} />
+                                </div>
+                                <p className="text-xs text-slate-500 uppercase font-semibold mb-1">Rate</p>
+                                <p className="text-2xl font-bold text-indigo-600">{stats.percentage}%</p>
+                            </div>
+                        </div>
+                    )}
 
                     {/* History Table */}
-                    <div className="glass rounded-2xl overflow-hidden">
-                        <div className="px-6 py-4 border-b border-dark-200/50 dark:border-dark-700/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-dark-50/30 dark:bg-dark-800/30">
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                        <div className="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50">
                             <div>
-                                <h2 className="text-lg font-display font-semibold text-dark-900 dark:text-white">
+                                <h2 className="text-lg font-semibold text-slate-900">
                                     Attendance History
                                 </h2>
                                 {selectedEmployeeData && (
-                                    <p className="text-sm text-dark-500 dark:text-dark-400 mt-1">
-                                        Showing records for <span className="font-medium text-orange-600 dark:text-orange-400">{selectedEmployeeData.full_name}</span>
+                                    <p className="text-sm text-slate-500 mt-1">
+                                        Showing records for <span className="font-medium text-indigo-600">{selectedEmployeeData.full_name}</span>
                                     </p>
                                 )}
                             </div>
 
                             <div className="flex items-center gap-2 text-sm">
-                                <div className="flex items-center gap-2 glass-subtle rounded-lg px-3 py-1.5">
-                                    <Filter size={14} className="text-dark-400" />
+                                <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-md px-3 py-1.5">
+                                    <Filter size={14} className="text-slate-400" />
                                     <input
                                         type="date"
                                         value={startDate}
                                         onChange={(e) => setStartDate(e.target.value)}
-                                        className="bg-transparent border-0 text-sm text-dark-700 dark:text-dark-200 focus:outline-none w-28"
+                                        className="bg-transparent border-0 text-sm text-slate-700 focus:outline-none w-28"
                                     />
-                                    <span className="text-dark-400">-</span>
+                                    <span className="text-slate-400">-</span>
                                     <input
                                         type="date"
                                         value={endDate}
                                         onChange={(e) => setEndDate(e.target.value)}
-                                        className="bg-transparent border-0 text-sm text-dark-700 dark:text-dark-200 focus:outline-none w-28"
+                                        className="bg-transparent border-0 text-sm text-slate-700 focus:outline-none w-28"
                                     />
                                 </div>
                                 {(startDate || endDate) && (
-                                    <motion.button
+                                    <button
                                         onClick={() => { setStartDate(''); setEndDate(''); }}
-                                        className="p-1.5 rounded-lg text-dark-400 hover:text-dark-600 dark:hover:text-dark-200 hover:bg-dark-100 dark:hover:bg-dark-700 transition-colors"
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
+                                        className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
                                     >
                                         <X size={16} />
-                                    </motion.button>
+                                    </button>
                                 )}
                             </div>
                         </div>
 
                         {!selectedEmployee ? (
                             <div className="p-16 text-center">
-                                <div className="w-16 h-16 rounded-full bg-dark-100 dark:bg-dark-800 flex items-center justify-center mx-auto mb-4">
-                                    <Calendar size={32} className="text-dark-300 dark:text-dark-600" />
+                                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                                    <Calendar size={32} className="text-slate-300" />
                                 </div>
-                                <h3 className="text-lg font-display font-semibold text-dark-900 dark:text-white mb-2">
+                                <h3 className="text-lg font-semibold text-slate-900 mb-2">
                                     No Employee Selected
                                 </h3>
-                                <p className="text-sm text-dark-500 dark:text-dark-400">
+                                <p className="text-sm text-slate-500">
                                     Select an employee to view their attendance record.
                                 </p>
                             </div>
@@ -360,76 +309,68 @@ const Attendance = () => {
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
-                                <table className="min-w-full">
-                                    <thead>
-                                        <tr className="bg-dark-50/50 dark:bg-dark-800/50">
-                                            <th className="px-6 py-4 text-left text-xs font-semibold text-dark-500 dark:text-dark-400 uppercase tracking-wider">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-slate-50">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                                 Date
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-semibold text-dark-500 dark:text-dark-400 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                                 Status
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-semibold text-dark-500 dark:text-dark-400 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                                 Logged At
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <AnimatePresence>
-                                            {filteredRecords.length === 0 ? (
-                                                <tr>
-                                                    <td colSpan="3" className="px-6 py-12 text-center text-dark-500 dark:text-dark-400">
-                                                        No records found for the selected range.
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {filteredRecords.length === 0 ? (
+                                            <tr>
+                                                <td colSpan="3" className="px-6 py-12 text-center text-slate-500">
+                                                    No records found for the selected range.
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            filteredRecords.map((record) => (
+                                                <tr key={record._id} className="hover:bg-slate-50 transition-colors">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
+                                                        {new Date(record.date).toLocaleDateString('en-US', {
+                                                            weekday: 'short',
+                                                            year: 'numeric',
+                                                            month: 'short',
+                                                            day: 'numeric'
+                                                        })}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <span className={cn(
+                                                            "px-2.5 py-0.5 text-xs font-medium rounded-full inline-flex items-center gap-1.5",
+                                                            record.status === 'Present'
+                                                                ? 'bg-emerald-100 text-emerald-700'
+                                                                : 'bg-rose-100 text-rose-700'
+                                                        )}>
+                                                            {record.status === 'Present' ? (
+                                                                <UserCheck size={12} />
+                                                            ) : (
+                                                                <UserX size={12} />
+                                                            )}
+                                                            {record.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
+                                                        {new Date(record.timestamp).toLocaleTimeString('en-US', {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit'
+                                                        })}
                                                     </td>
                                                 </tr>
-                                            ) : (
-                                                filteredRecords.map((record, index) => (
-                                                    <motion.tr
-                                                        key={record._id}
-                                                        initial={{ opacity: 0, y: 10 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        transition={{ delay: index * 0.02 }}
-                                                        className="hover:bg-dark-50/50 dark:hover:bg-dark-700/30 transition-colors border-t border-dark-200/50 dark:border-dark-700/50"
-                                                    >
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-dark-900 dark:text-white">
-                                                            {new Date(record.date).toLocaleDateString('en-US', {
-                                                                weekday: 'short',
-                                                                year: 'numeric',
-                                                                month: 'short',
-                                                                day: 'numeric'
-                                                            })}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap">
-                                                            <span className={cn(
-                                                                "px-3 py-1 text-xs font-semibold rounded-full inline-flex items-center gap-1.5",
-                                                                record.status === 'Present'
-                                                                    ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
-                                                                    : 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300'
-                                                            )}>
-                                                                {record.status === 'Present' ? (
-                                                                    <UserCheck size={12} />
-                                                                ) : (
-                                                                    <UserX size={12} />
-                                                                )}
-                                                                {record.status}
-                                                            </span>
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-dark-500 dark:text-dark-400">
-                                                            {new Date(record.timestamp).toLocaleTimeString('en-US', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit'
-                                                            })}
-                                                        </td>
-                                                    </motion.tr>
-                                                ))
-                                            )}
-                                        </AnimatePresence>
+                                            ))
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
                         )}
                     </div>
-                </motion.div>
+                </div>
             </div>
         </div>
     );

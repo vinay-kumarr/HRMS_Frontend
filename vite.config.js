@@ -7,7 +7,15 @@ export default defineConfig({
   server: {
     allowedHosts: [
       'rice-mazda-governor-vegetation.trycloudflare.com',
-      '.trycloudflare.com' // Allow any cloudflare tunnel for convenience
-    ]
+      '.trycloudflare.com'
+    ],
+    proxy: {
+      '/api': {
+        target: 'https://hrms-backend-h14x.onrender.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
+      }
+    }
   }
 })
